@@ -27,4 +27,4 @@ jobs:
         run: |
           pip install -r requirements.txt || true
       - name: Run appointment checker
-        run: python appointment_checker.py
+        run: python appointment_checker.py --url "https://reservation.frontdesksuite.com/kkvielse/raadhuset/ReserveTime/TimeSelection?pageId=6bffdce0-29ab-4353-bdce-9392b1298063&buttonId=a93057c4-19bc-4478-aeec-cee9f35a86c9&culture=en" --until 2025-08-28
