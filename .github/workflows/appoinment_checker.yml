@@ -11,6 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TZ: Europe/Copenhagen
+      APPT_MAIL_SENDER: ${{ secrets.APPT_MAIL_SENDER }}
+      APPT_MAIL_RECIPIENT: ${{ secrets.APPT_MAIL_RECIPIENT }}
+      APPT_MAIL_SMTP_SERVER: ${{ secrets.APPT_MAIL_SMTP_SERVER }}
+      APPT_MAIL_SMTP_PORT: ${{ secrets.APPT_MAIL_SMTP_PORT }}
+      APPT_MAIL_SMTP_USER: ${{ secrets.APPT_MAIL_SMTP_USER }}
+      APPT_MAIL_SMTP_PASSWORD: ${{ secrets.APPT_MAIL_SMTP_PASSWORD }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
