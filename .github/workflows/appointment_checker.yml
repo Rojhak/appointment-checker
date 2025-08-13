@@ -1,0 +1,30 @@
+name: Appointment Checker
+
+on:
+  schedule:
+    # Every 10 minutes, Monday-Friday, 07:00–15:50 UTC (09:00–17:50 Denmark)
+    - cron: '*/10 7-15 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  check-appointments:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Europe/Copenhagen
+      APPT_MAIL_SENDER: ${{ secrets.APPT_MAIL_SENDER }}
+      APPT_MAIL_RECIPIENT: ${{ secrets.APPT_MAIL_RECIPIENT }}
+      APPT_MAIL_SMTP_SERVER: ${{ secrets.APPT_MAIL_SMTP_SERVER }}
+      APPT_MAIL_SMTP_PORT: ${{ secrets.APPT_MAIL_SMTP_PORT }}
+      APPT_MAIL_SMTP_USER: ${{ secrets.APPT_MAIL_SMTP_USER }}
+      APPT_MAIL_SMTP_PASSWORD: ${{ secrets.APPT_MAIL_SMTP_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt || true
+      - name: Run appointment checker
+        run: python appointment_checker.py
