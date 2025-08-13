@@ -202,27 +202,24 @@ def monitor_appointments(
         interval: Polling interval in seconds.
     """
     cutoff_date = _dt.datetime.strptime(cutoff_str, "%Y-%m-%d").date()
-    print(f"Monitoring appointments until {cutoff_date} ...")
-    while True:
-        try:
-            html = fetch_page(url)
-            available_dates = parse_available_dates(html, cutoff_date)
-            timestamp = _dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            if available_dates:
-                print(f"[{timestamp}] Found available appointments:")
-                for date_obj, status in available_dates:
-                    date_str = date_obj.strftime("%A %B %d, %Y")
-                    message = status or "Available"
-                    print(f"  * {date_str}: {message}")
-                print("Act quickly to book your preferred slot via the web interface.")
-                send_email_notification(available_dates, url, cutoff_date)
-            else:
-                print(f"[{timestamp}] No appointments available up to {cutoff_date}.")
-        except Exception as exc:
-            err_time = _dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            print(f"[{err_time}] Error while checking appointments: {exc}", file=sys.stderr)
-        # Sleep before next check
-        time.sleep(interval)
+    print(f"Monitoring appointments until {cutoff_date} ... (single check)")
+    try:
+        html = fetch_page(url)
+        available_dates = parse_available_dates(html, cutoff_date)
+        timestamp = _dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        if available_dates:
+            print(f"[{timestamp}] Found available appointments:")
+            for date_obj, status in available_dates:
+                date_str = date_obj.strftime("%A %B %d, %Y")
+                message = status or "Available"
+                print(f"  * {date_str}: {message}")
+            print("Act quickly to book your preferred slot via the web interface.")
+            send_email_notification(available_dates, url, cutoff_date)
+        else:
+            print(f"[{timestamp}] No appointments available up to {cutoff_date}.")
+    except Exception as exc:
+        err_time = _dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{err_time}] Error while checking appointments: {exc}", file=sys.stderr)
 
 
 def build_arg_parser() -> argparse.ArgumentParser:

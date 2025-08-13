@@ -2,8 +2,8 @@ name: Appointment Checker
 
 on:
   schedule:
-    # Every 10 minutes, Monday-Friday, 07:00–15:50 UTC (09:00–17:50 Denmark)
-    - cron: '*/10 7-15 * * 1-5'
+    # Every 20 minutes, Monday-Friday, 07:00–15:50 UTC (09:00–17:50 Denmark)
+    - cron: '*/20 7-15 * * 1-5'
   workflow_dispatch:
 
 jobs:
